@@ -4,9 +4,13 @@ from flask import Flask, send_from_directory
 from flask_restful import Api
 from flask_cors import CORS
 
-# Initialize Firebase
-cred = firebase_admin.credentials.Certificate("credentials.json")
-firebase_admin.initialize_app(cred, {'databaseURL': 'https://lines-and-letters-default-rtdb.firebaseio.com/'})
+# Initialize Firebase (databaseURL from env for flexibility when recreating project)
+_default_db_url = "https://lines-and-letters-game-default-rtdb.firebaseio.com/"
+_credentials_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "credentials.json")
+cred = firebase_admin.credentials.Certificate(_credentials_path)
+firebase_admin.initialize_app(cred, {
+    "databaseURL": os.environ.get("FIREBASE_DATABASE_URL", _default_db_url),
+})
 
 app = Flask(__name__, static_url_path='', static_folder='frontend/build')
 CORS(app)

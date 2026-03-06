@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, make_response
 from flask_restful import Api, Resource
 from firebase_admin import db
 from itertools import permutations
+import os
 
 import math
 import random
@@ -12,7 +13,9 @@ api = Api(anagrams_api)
 root_ref = db.reference("/")
 games_ref = root_ref.child("games")
 
-file_path = 'valid_words.txt'
+# Resolve valid_words.txt relative to project root (works when run from root or in Docker /app)
+_app_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+file_path = os.path.join(_app_root, 'valid_words.txt')
 valid_words = set()
 with open(file_path, 'r') as file:
     for line in file:

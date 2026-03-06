@@ -1,0 +1,28 @@
+# Firebase and secrets
+credentials.json
+.env
+.env.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+.venv/
+env/
+
+# Build / deploy
+frontend/build/
+.firebase/
+
+# IDE / OS
+.idea/
+.DS_Store
+*.log
+SETUP.md
+sajel.txt
+serena-test.md
+payton-test.md
+arbitrary.txt

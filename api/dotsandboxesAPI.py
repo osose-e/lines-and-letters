@@ -147,7 +147,12 @@ class Games(Resource):
             return make_response(jsonify("Grid update failed."), 400)
     
         if "advance_player" in request.json:
-            next_player = self.game_ref.child("current_player").get() % (len(self.game_ref.child("players").get()) - 1) + 1
+            players = self.game_ref.child("players").get() or {}
+            n_players = len([p for p in players.values() if p is not None])
+            if n_players < 1:
+                return make_response(jsonify("No players in game."), 400)
+            current = self.game_ref.child("current_player").get() or 1
+            next_player = (current % n_players) + 1
             self.game_ref.child("current_player").set(next_player)
             return make_response(jsonify(f"Current player was updated to: {next_player}"), 200)
 
