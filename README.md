@@ -1,7 +1,5 @@
 # Team 25: Lines and Letters
 
-Wiki: https://github.com/StanfordCS194/Spr24-Team25/wiki
-
 ### Setup
 
 Run `pip install -r requirements.txt` to install dependencies. Run `flask run` to run Flask app.
@@ -13,3 +11,4 @@ The frontend can be run with hot reloading by running `yarn start` in the `front
 Peyton Lee
 Osose Ewaleifoh
 Sajel Galhotra
+Serena Kravantka
