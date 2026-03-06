@@ -38,6 +38,12 @@ def after_request(response):
   response.headers.add('Cache-Control', 'public, max-age=60, s-maxage=60')
   return response
 
+
+# Ensure CORS preflight (OPTIONS) is handled so browser requests from Firebase Hosting succeed
+@app.route('/<path:path>', methods=['OPTIONS'])
+def options_catch_all(path):
+  return '', 204
+
 # Serve frontend files
 @app.route("/", defaults={'path':''})
 def getApp(path):

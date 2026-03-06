@@ -148,10 +148,18 @@ class Games(Resource):
     
         if "advance_player" in request.json:
             players = self.game_ref.child("players").get() or {}
-            n_players = len([p for p in players.values() if p is not None])
+            # Firebase can return dict {"1": {...}, "2": {...}} or list [None, {...}, {...}]
+            if hasattr(players, "values"):
+                n_players = len([p for p in players.values() if p is not None])
+            else:
+                n_players = len([p for p in players if p is not None])
             if n_players < 1:
-                return make_response(jsonify("No players in game."), 400)
+                n_players = 2  # fallback so we still advance (e.g. 1 -> 2 -> 1)
             current = self.game_ref.child("current_player").get() or 1
+            try:
+                current = int(current)
+            except (TypeError, ValueError):
+                current = 1
             next_player = (current % n_players) + 1
             self.game_ref.child("current_player").set(next_player)
             return make_response(jsonify(f"Current player was updated to: {next_player}"), 200)

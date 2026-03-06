@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
+// Must match the backend's FIREBASE_DATABASE_URL / databaseURL (same project).
 const firebaseConfig = {
-  databaseURL: "https://lines-and-letters-default-rtdb.firebaseio.com",
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL || "https://lines-and-letters-game-default-rtdb.firebaseio.com",
 };
 
 // Initialize Firebase

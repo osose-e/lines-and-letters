@@ -223,8 +223,9 @@ function JoinForm({ formType, formStyle, toggleForm, handleInputChange, handleCl
     let submitButton;
     if (formType === "profile creation") {
         const submitUsername = () => {
-            ReactSession.set("user", username);
-            const requestData = { "sign_up": "put" };
+            if (!username || !username.trim()) return;
+            ReactSession.set("user", username.trim());
+            const requestData = { "sign_up": true };
             const requestOptions = {
                 method: 'PUT',
                 headers: {
@@ -232,11 +233,15 @@ function JoinForm({ formType, formStyle, toggleForm, handleInputChange, handleCl
                 },
                 body: JSON.stringify(requestData)
             };
-            fetch(BASE_URL + `/users/` + username, requestOptions)
-                .catch(error =>
-                    console.error('Error:', error)
-                );
-
+            fetch(BASE_URL + `/users/` + encodeURIComponent(username.trim()), requestOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(body => Promise.reject(new Error(typeof body === 'string' ? body : body.message || 'Sign up failed')));
+                    }
+                })
+                .catch(error => {
+                    console.error('Sign up error:', error);
+                });
         }
         submitButton = <Link className="Create-profile" ><button className="Submit-button" onClick={() => { submitUsername(); handleSubmit(); }} style={{ '--selected-color': formStyle[0].fill }}>{types[formType].submit}</button></Link >;
     } else if (formType === "signed in") {

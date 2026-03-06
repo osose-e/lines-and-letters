@@ -26,8 +26,8 @@ const BASE = {
   "Y": 1, "Z": 4,
 }
 
-// Use env var at build time (e.g. for Firebase Hosting); fallback for local dev
-export const BASE_URL = process.env.REACT_APP_API_URL || "https://flask-fire-7e7ywojchq-uc.a.run.app";
+// Use env var at build time (e.g. for Firebase Hosting); fallback = flask-fire backend
+export const BASE_URL = process.env.REACT_APP_API_URL || "https://flask-fire-545477494948.us-central1.run.app";
 
 function isOdd(num) { return num % 2 }
 

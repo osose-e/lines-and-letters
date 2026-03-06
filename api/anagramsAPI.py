@@ -96,9 +96,11 @@ class Anagrams(Resource):
             
         if "done" in request.json:
             self.player_ref.child("done").set(True)
-            players = games_ref.child(game_code).child("players").get()
-            for player in players:
-                if player and not player.get("done"):
+            players = games_ref.child(game_code).child("players").get() or {}
+            # players is a dict {"1": {...}, "2": {...}}; iterate over values (player objects)
+            player_list = players.values() if hasattr(players, "values") else players
+            for player in player_list:
+                if player is not None and not player.get("done"):
                     return make_response(jsonify({"can_proceed": False}), 200)
             return make_response(jsonify({"can_proceed": True}), 200)
             

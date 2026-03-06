@@ -1,0 +1,21 @@
+# Used by gcloud builds submit. Do NOT list credentials.json here
+# or it will be excluded and the container will fail to start.
+.git
+.gitignore
+node_modules/
+frontend/node_modules/
+frontend/build/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.Python
+.idea/
+.DS_Store
+*.log
+.firebase/
+.env
+.env.local
+*.md
+!firebase-database-import-README.md
